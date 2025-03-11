@@ -39,7 +39,7 @@ const eventJoinerService = async (userId: string, eventId: string) => {
 };
 
 const eventFeedService = async (filters: {
-    category?: string;
+    category?: string[];
     location?: string;
 }) => {
     try {

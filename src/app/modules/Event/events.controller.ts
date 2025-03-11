@@ -42,17 +42,27 @@ const eventJoinerController = async (req: Request, res: Response) => {
 
 const eventFeedController = async (req: Request, res: Response) => {
     //filter and show events vased on category , location and availablity
-    const userLoaction = req.user.user.location.city;
-    const result = await eventService.eventFeedService({
-        location: userLoaction,
-    });
-    sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: "Event listing successful",
-        data: result,
-    });
-};
+    //replace the location source later 
+    try {
+        const userLoaction = req.user.user.location.city;
+        const result = await eventService.eventFeedService({
+            location: userLoaction,
+            category: req.body.category
+        });
+        sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: "Event listing successful",
+            data: result,
+        });
+    } catch (error) {
+        sendResponse(res, {
+            statusCode: 400,
+            success: false,
+            message: "Event listing failed successfully :P", // Joking btw :) 
+            data: error,
+        });
+    }
 
 const eventFilterController = async (req: Request, res: Response) => {
     const result = await eventService.eventFilterService(req.query);
