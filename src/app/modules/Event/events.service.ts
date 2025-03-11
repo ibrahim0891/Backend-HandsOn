@@ -50,7 +50,7 @@ const eventFeedService = async (filters: {
         throw new Error("Event feed not retrived successfull!");
     }
 };
-const eventFilterService = async (filterQuery) => {
+const eventFilterService = async (filterQuery : {location : string , category : string , isAvailable : boolean})  => {
     try {
         const events = await Event.find(filterQuery);
         return events;
