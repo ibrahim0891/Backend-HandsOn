@@ -11,7 +11,7 @@ const router = Router();
 router.post("/create",authMiddleware,  eventController.eventCreatorController);
 router.post("/join", authMiddleware , eventController.eventJoinerController);
 
-router.get("/list",authMiddleware ,  eventController.eventListGetterController);
+router.get("/list",authMiddleware ,  eventController.eventFeedController);
 router.get("/filter",authMiddleware , eventController.eventFilterController);
 
 
