@@ -63,10 +63,26 @@ const eventFeedController = async (req: Request, res: Response) => {
             data: error,
         });
     }
-
+}
 const eventFilterController = async (req: Request, res: Response) => {
-    const result = await eventService.eventFilterService(req.query);
-    res.status(200).json(result);
+    try {
+        const filterQuery  = req.query;
+        console.log(filterQuery);
+        const result = await eventService.eventFilterService(filterQuery);
+        sendResponse(res , {
+            statusCode: 200,
+            success: true,
+            message: "Event filtering successful",
+            data: result,
+        })
+    } catch (error) {
+        sendResponse(res, {
+            statusCode: 400,
+            success: false,
+            message: "Event filtering failed ", // Joking btw :)
+            data: error,
+        });
+    }
 };
 export const eventController = {
     eventCreatorController,
