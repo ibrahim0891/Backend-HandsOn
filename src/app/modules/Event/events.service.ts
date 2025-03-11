@@ -50,7 +50,11 @@ const eventFeedService = async (filters: {
         throw new Error("Event feed not retrived successfull!");
     }
 };
-const eventFilterService = async (filterQuery : {location : string , category : string , isAvailable : boolean})  => {
+const eventFilterService = async (filterQuery: {
+    location: string;
+    category: string;
+    isEventAvailable: boolean;
+}) => {
     try {
         const events = await Event.find(filterQuery);
         return events;
@@ -59,9 +63,24 @@ const eventFilterService = async (filterQuery : {location : string , category : 
     }
 };
 
+const eventSearchService = async (searchQuery: string) => {
+    try {
+        const events = await Event.find({
+            $or: [
+                { title: { $regex: searchQuery, $options: "i" } },
+                { description: { $regex: searchQuery, $options: "i" } },
+            ],
+        });
+        return events;
+    } catch (error) {
+        throw new Error("Event search failed");
+    }
+};
+
 export const eventService = {
     eventCreationService,
     eventFeedService,
     eventFilterService,
     eventJoinerService,
+    eventSearchService,
 };
