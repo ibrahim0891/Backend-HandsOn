@@ -4,6 +4,7 @@ import { authMiddleware } from "../middleware/auth.middleware";
 import sendResponse from "../utils/sendResponse";
 import { userRouter } from "../modules/user/user.router";
 import { eventRotuer } from "../modules/Event/events.router";
+import { postRouter } from "../modules/Post_CHR/post.router";
 
 const router = Router();
 
@@ -14,9 +15,9 @@ const routers = [
         router: userRouter,
     },
     {
-        path: "/notes",
+        path: "/post",
         isProtected: true,
-        router: () => {},
+        router: postRouter,
     },
     {
         path: "/events",

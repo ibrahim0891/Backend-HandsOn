@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { mongo } from "mongoose"; 
 
 const helpPostSchema = new mongoose.Schema({
     title: {
@@ -17,10 +17,37 @@ const helpPostSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    urgencyLevel: {
+        type: String,
+        enum: ["Low", "Medium", "Urgent"],
+        default: "Low",
+        required: true,
+    },
     comments: [
         {
-            commentId: mongoose.Schema.Types.ObjectId,
-            comment: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment",
+        },
+    ],
+});
+
+const commentSchema = new mongoose.Schema({
+    text: String,
+    postId : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "HelpPost",
+    } , 
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    replies: [
+        {
+            replyText: String,
             createdAt: {
                 type: Date,
                 default: Date.now,
@@ -29,23 +56,13 @@ const helpPostSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             },
-            replies: [
-                {
-                    replyId: mongoose.Schema.Types.ObjectId,
-                    reply: String,
-                    createdAt: {
-                        type: Date,
-                        default: Date.now,
-                    },
-                    userId: {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: "User",
-                    },
-                },
-            ],
         },
     ],
 });
 
-const HelpPost = mongoose.model("HelpPost", helpPostSchema);
-export default HelpPost;
+helpPostSchema.add({
+    comments: [commentSchema],
+});
+
+export const CommentModel = mongoose.model("Comment", commentSchema);
+export const HelpPost = mongoose.model("HelpPost", helpPostSchema); 
