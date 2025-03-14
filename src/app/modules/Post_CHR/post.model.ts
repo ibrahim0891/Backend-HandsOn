@@ -29,6 +29,14 @@ const helpPostSchema = new mongoose.Schema({
             ref: "Comment",
         },
     ],
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    teamId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Team",
+    },
 });
 
 const commentSchema = new mongoose.Schema({
@@ -66,3 +74,4 @@ helpPostSchema.add({
 
 export const CommentModel = mongoose.model("Comment", commentSchema);
 export const HelpPost = mongoose.model("HelpPost", helpPostSchema); 
+export const PrivetPost = mongoose.model("PrivetPost", helpPostSchema);

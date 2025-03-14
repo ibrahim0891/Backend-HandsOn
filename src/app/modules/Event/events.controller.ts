@@ -91,7 +91,7 @@ const eventFilterController = async (req: Request, res: Response) => {
         sendResponse(res, {
             statusCode: 400,
             success: false,
-            message: "Event filtering failed ", // Joking btw :)
+            message: "Event filtering failed ", 
             data: error,
         });
     }

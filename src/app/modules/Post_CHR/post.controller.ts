@@ -7,7 +7,7 @@ import sendResponse from "../../utils/sendResponse";
 const helpPostCreatorController = async (req: Request, res: Response) => {
     try {
         const newPostData = req.body;
-        n;
+        
 
         const newPost = await postService.postOperations.createPost(
             newPostData
@@ -155,10 +155,9 @@ const helpPostCommentController = async (req: Request, res: Response) => {
             data: error.message,
         });
     }
-    
 };
 const helpPostReplyController = async (req: Request, res: Response) => {
-    try { 
+    try {
         const commentId = req.body.commentId;
         const replyText = req.body.reply;
         const userId = req.body.userId;

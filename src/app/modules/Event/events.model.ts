@@ -11,7 +11,7 @@ const eventSchema = new mongoose.Schema<ResolveSchemaOptions<any>>(
         description: {
             type: String,
             required: true,
-        },
+        }, 
         date: {
             type: Date,
             default: Date.now,
@@ -43,8 +43,8 @@ const eventSchema = new mongoose.Schema<ResolveSchemaOptions<any>>(
         availability: {
             type: Object, 
             date: {
-                type: String,
-                required: true,
+                type: Date,
+                required: true
             },
             time: {
                 start: {
@@ -60,9 +60,11 @@ const eventSchema = new mongoose.Schema<ResolveSchemaOptions<any>>(
                 totalSlots: {
                     type: Number,
                     required: true,
+                    default: 0,
                 },
                 filledSlots: {
                     type: Number,
+                    default: 0,
                 },
             },
         },
@@ -78,6 +80,12 @@ const eventSchema = new mongoose.Schema<ResolveSchemaOptions<any>>(
                 },
             },
         ],
+        
+        teamId : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Team",
+        }
+
     },
     {
         virtuals: true,
@@ -85,7 +93,7 @@ const eventSchema = new mongoose.Schema<ResolveSchemaOptions<any>>(
 );
 
 
-eventSchema.virtual('isEventAvailable').get(function() {
+eventSchema.virtual('isEventAvailable').get(function(this: any) {
     const today = new Date()
     const eventDate = new Date(this.availability.date)
     const isSlotAvailable = this.availability.capacity.filledSlots < this.availability.capacity.totalSlots
@@ -93,5 +101,9 @@ eventSchema.virtual('isEventAvailable').get(function() {
     return isSlotAvailable && eventDate >= today
 })
 
+
+
 const Event = mongoose.model("Event", eventSchema);
+export const PrivetEvents = mongoose.model("PrivetEvents", eventSchema);
+
 export default Event;

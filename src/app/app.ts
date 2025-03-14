@@ -14,7 +14,7 @@ app.use(
         credentials: true,
     })
 );
-app.use("/api/v1", router);
+app.use("/api/", router);
 app.use(notFound);
 
 export default app;

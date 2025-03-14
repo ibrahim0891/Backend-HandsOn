@@ -5,19 +5,31 @@
 import { Request, Response } from "express";
 import IEvent from "./events.interface";
 import Event from "./events.model";
+import User from "../user/user.model";
 
 const eventCreationService = async (
     eventInitiatorData: IEvent,
-    creatorId: string
+    creatorId: string,
 ) => {
     try {
-        console.log(eventInitiatorData);
         const event = await Event.create({ ...eventInitiatorData, creatorId });
+        
+        // Update creator's contributions in a single atomic operation
+        await User.findByIdAndUpdate(
+            creatorId,
+            {
+                $inc: { 'contributions.eventOrganised': 1 },
+                $addToSet: { 'contributions.causesContributed': eventInitiatorData.category }
+            },
+            { new: true }
+        );
+
         return event;
     } catch (error) {
         throw new Error("Event creation failed");
     }
 };
+
 const eventJoinerService = async (userId: string, eventId: string) => {
     try {
         const event = await Event.findById(eventId);
@@ -32,9 +44,15 @@ const eventJoinerService = async (userId: string, eventId: string) => {
         }
         event.attendees.push(userId);
         await event.save();
+        await User.findByIdAndUpdate(
+            userId,
+            { $inc: { "contributions.eventParticipated": 1 } },
+            { new: true }
+        );
+
         return event;
     } catch (error) {
-        throw new Error("Event joining failed");
+        throw new Error("Event joining failed " + error.message);
     }
 };
 
