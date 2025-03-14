@@ -1,57 +1,124 @@
+# Backend-HandsOn API Documentation
+
+A robust backend API service built with TypeScript and Express.js for handling services, users, teams, events, and interactions.
+
+## Features
+
+- User Authentication and Authorization
+- Team Management
+- Event Organization
+- Post Management (Create, Read, Delete)
+- Comment System
+- Reply System
+- Error Handling
+- Response Standardization
+
+## Tech Stack
+
+- Node.js
+- TypeScript
+- Express.js
+- MongoDB
+- Mongoose
+- JSON Web Token (JWT)
+- Bcrypt
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ibrahim0891/Backend-HandsOn.git
+```
+
+2. Navigate to the project directory:
+```bash
+cd Backend-HandsOn
+```
+
+3. Install dependencies:
+```bash
+npm install
+```
+
+4. Start the development server:
+```bash
+npm run dev
+```
+
+## Environment Variables
+
+Create a `.env` file in the root directory and configure the following environment variables:
+```bash
+NODE_ENV=development
+PORT=5000
+
+# MongoDB Connection
+DATABASE_URL=mongodb://localhost:27017/handson_db 
+
+# Security
+BCRYPT_SALT_ROUNDS=10
+JWT_SECRET=your_jwt_secret
+
+# OTP Configuration
+OTP_EXPIRE=120
+OTP_LENGTH=6
+
+# Email Configuration
+EMAIL_USER="your_email@example.com"
+EMAIL_PASS="your_email_password"
+```
 
 ## API Documentation
 
-### Base URL
+For detailed API documentation, please refer to the following module-specific documentation:
+
+- [Authentication API Documentation](./docs/auth.docs.md)
+- [User API Documentation](./docs/user.docs.md)
+- [Team API Documentation](./docs/team.docs.md)
+- [Team Event and Post API Documentation](./docs/team.service.docs.md)
+- [Public Events API Documentation](./docs/event.docs.md) 
+- [Community Help Post API Documentation](./docs/post.docs.md)
+
+## Project Structure
+
 ```
-http://localhost:5000/api/v1
+dist/
+docs/
+src/
+├── app/
+│   ├── config/
+│   ├── lib/ 
+│   ├── router/
+│   ├── modules/
+│   │   └── Post_CHR/
+│   │       ├── post.controller.ts
+│   │       ├── post.service.ts
+│   │       └── post.route.ts
+│   ├── middleware/
+│   └── utils/
+├── app.ts
+├── index.ts
+├── server.ts
+└── constants/
 ```
 
-### Authentication Endpoints
+## Response Format
 
-#### Login
-- **URL:** `/auth/login`
-- **Method:** `POST`
-- **Description:** Authenticate user and generate session token
+All API responses follow a consistent format:
 
-#### Logout
-- **URL:** `/auth/logout`
-- **Method:** `POST`
-- **Description:** Invalidate user session
+```json
+{
+  "statusCode": number,
+  "success": boolean,
+  "message": string,
+  "data": object | array | null
+}
+```
 
-#### Signup
-- **URL:** `/auth/signup`
-- **Method:** `POST`
-- **Description:** Register new user account
+## Error Handling
 
-#### Verify Email
-- **URL:** `/auth/verify-email`
-- **Method:** `POST`
-- **Description:** Verify user email address
+The API implements a standardized error handling mechanism with appropriate HTTP status codes and descriptive messages.
 
-#### Session Verifier
-- **URL:** `/auth/session-verifier`
-- **Method:** `GET`
-- **Description:** Validate current session status
+## Support
 
-### User Endpoints
-
-#### Get User Profile
-- **URL:** `/user/get-user-profile`
-- **Method:** `GET`
-- **Description:** Retrieve current user's profile
-
-#### Update Profile
-- **URL:** `/user/update-profile`
-- **Method:** `PUT`
-- **Description:** Update user profile information
-
-#### Get User by ID
-- **URL:** `/user/get-user/:id`
-- **Method:** `GET`
-- **Description:** Retrieve user profile by ID
-- **Parameters:**
-    - `id`: User ID
-
-### Event Endpoints
-- **Base Route:** `/event`
-- **Description:** Endpoints for event management
+For support, please email: your-email@example.com
