@@ -119,6 +119,3 @@ All API responses follow a consistent format:
 
 The API implements a standardized error handling mechanism with appropriate HTTP status codes and descriptive messages.
 
-## Support
-
-For support, please email: your-email@example.com
